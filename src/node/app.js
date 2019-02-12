@@ -79,6 +79,11 @@ app.get('/build.js', function (req, res) {
     res.sendFile(path.resolve('src/dist/build.js'));
 });
 
+app.post('/api/movies/all', (req, res) => {  
+    global.movies.push(req.body.movies_to_add);
+    res.json(global.movies);
+});
+
 //open(`http://localhost:${port}`);
 
 app.listen(port, hostname, () => {

@@ -79,13 +79,23 @@
             reset () {
                 this.$refs.form.reset()
             },
+            lastId(liste){
+                let leLast = 0;
+                liste.forEach(element => {
+                    let identifiant = element.id;
+                    if(this.identifiant >= this.leLast && this.identifiant != 0){
+                        this.leLast = this.identifiant;
+                    }
+                });
+                return this.leLast + 1;
+            },
             newmovie: function () {
-                this.birthday = this.date,
-                console.log(this.birthday);
-                console.log(this.director);
-                console.log(this.movie_to_add);
+                //this.movie_to_add.id = this.lastId(this.movies);
+                this.birthday = this.date,                
                 this.director.birthday = this.birthday;
-                this.movie_to_add.push(this.director);
+                console.log(this.director);
+                this.movie_to_add.director = this.director;
+                console.log(this.movie_to_add);
                 this.movies.push(this.movie_to_add);
                 axios.post('/api/movies/all', this.movie_to_add);
                 this.movie_to_add = {};
@@ -100,14 +110,20 @@
                 }
             });
         },
-        /*computed: {
-            app.get('/api/movies/all', function (req, res) {
-    res.json(global.movies);
-});
-        }*/
+        computed: {
+            /*lastId(liste){
+                let leLast = 0;
+                let identifiant = element.id;
+                liste.forEach(element => {
+                    if(this.identifiant >= this.leLast && this.identifiant != 0){
+                        this.leLast = this.identifiant;
+                    }
+                });
+                return this.leLast + 1;
+            }*/
+        }
     }
 </script>
 
 <style scoped>
-
 </style>
