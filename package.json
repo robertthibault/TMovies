@@ -1,5 +1,5 @@
 {
-  "name": "vue-movies",
+  "name": "tmovies",
   "version": "1.0.0",
   "description": "Projet DAWIN - Listes de films en NodeJs et VueJs",
   "author": "Thibault ROBERT robert.thibault33@gmail.com",
@@ -23,7 +23,7 @@
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.2",
     "vue-star-rating": "^1.6.1",
-    "vuetify": "^1.4.6",
+    "vuetify": "^1.5.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

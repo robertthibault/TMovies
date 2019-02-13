@@ -79,19 +79,22 @@
             reset () {
                 this.$refs.form.reset()
             },
-            lastId(liste){
+            lastId: function(liste){
                 let leLast = 0;
-                liste.forEach(element => {
+                this.liste.forEach(element => {
                     let identifiant = element.id;
                     if(this.identifiant >= this.leLast && this.identifiant != 0){
                         this.leLast = this.identifiant;
                     }
                 });
-                return this.leLast + 1;
+                return (this.leLast + 1);
             },
             newmovie: function () {
-                //this.movie_to_add.id = this.lastId(this.movies);
-                this.birthday = this.date,                
+                // let ident = lastId(this.movies);
+                // this.movie_to_add.id = this.ident;
+                this.movie_to_add.id = 4;
+                console.log(this.movie_to_add.id);
+                this.birthday = this.date;
                 this.director.birthday = this.birthday;
                 console.log(this.director);
                 this.movie_to_add.director = this.director;

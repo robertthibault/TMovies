@@ -8,6 +8,9 @@ const port = 8080;
 
 var app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 /*app.use(express.static(path.resolve('src/static')));
 app.use(express.static(path.resolve('src/dist')));
 app.use(bodyParser.json());
@@ -80,7 +83,9 @@ app.get('/build.js', function (req, res) {
 });
 
 app.post('/api/movies/all', (req, res) => {  
+    console.log(req.body);
     global.movies.push(req.body.movies_to_add);
+    console.log(req.body);
     res.json(global.movies);
 });
 
