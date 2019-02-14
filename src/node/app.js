@@ -7,7 +7,6 @@ const hostname = '127.0.0.1';
 const port = 8080;
 
 var app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -82,10 +81,8 @@ app.get('/build.js', function (req, res) {
     res.sendFile(path.resolve('src/dist/build.js'));
 });
 
-app.post('/api/movies/all', (req, res) => {  
-    console.log(req.body);
-    global.movies.push(req.body.movies_to_add);
-    console.log(req.body);
+app.post('/api/movies/all', (req, res) => {
+    global.movies.push(req.body);
     res.json(global.movies);
 });
 

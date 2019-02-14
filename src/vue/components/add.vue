@@ -102,6 +102,7 @@
                 this.movies.push(this.movie_to_add);
                 axios.post('/api/movies/all', this.movie_to_add);
                 this.movie_to_add = {};
+                this.director = {};
             },
         },
         created: function() {
