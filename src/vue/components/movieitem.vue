@@ -1,86 +1,58 @@
 <template>
-  <!--<li @click="display_details=!display_details">
-    <b>{{movie.title}} ({{movie.year}})</b>
-    <br>
-    <span v-if="display_details">
-      <p>{{movie.synopsys}}</p>
-      <p>{{movie.genre}}</p>
-      <p><b>Réalisateur:</b> {{movie.director.name}}, birthday: {{movie.director.birthdate}}, nationality: {{movie.director.nationality}}</p>
-      <button v-on:click="$router.push({ name: 'edit', params: { id: movie.id } })">Edit</button>
-      <button v-on:click="remove(movie.id)">Remove</button>
-    </span>
-    <br>
-    <br>
-  </li>-->
-  <v-form ref="form" v-model="valid" lazy-validation>
-        <h1>Edit movie :</h1>
-        <br />
-        <v-text-field v-model="Title" :counter="35" :rules="titleRules" label="Title" required></v-text-field>
-        <v-textarea v-model="Synopsys" name="input-7-4" :rules="synopsysRules" label="Synopsys" required></v-textarea>
-        <v-text-field v-model="Year" :counter="4" :rules="yearRules" label="Year" required></v-text-field>
-        <v-text-field v-model="Genre" :counter="20" :rules="genreRules" label="Genre" required></v-text-field>
-        <h2>Director :</h2>
-        <v-text-field v-model="Name" :counter="40" :rules="nameRules" label="Name" required></v-text-field>
-        <v-text-field v-model="Nationality" :counter="30" :rules="nationalityRules" label="Nationality" required></v-text-field>
-        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="date" lazy transition="scale-transition" offset-y full-width min-width="290px">
-        <v-text-field slot="activator" v-model="date" label="Birthday" prepend-icon="event" readonly></v-text-field>
-        <v-date-picker v-model="date" no-title scrollable>
-          <v-spacer></v-spacer>
-          <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
-          <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
-        </v-date-picker>
-      </v-menu>
-        <v-btn color="success" @click="validate">Validate</v-btn>
-        <v-btn color="error" @click="remove">Remove</v-btn>
+  <v-container>
+    <v-layout row wrap>
+      <v-flex xs12 sm12 pa-2>
+        <v-container><h1>Movie</h1></v-container>
+        <v-container><h2>Titre : {{movie.title}}</h2></v-container>
+        <v-container><h2>Synopsys : {{movie.synopsys}}</h2></v-container>
+        <v-container><h2>Year : {{movie.year}}</h2></v-container>
+        <v-container><h2>Genre : {{movie.genre}}</h2></v-container>
+        <v-container><h2>Poster: <v-btn color="purple" dark v-on:click="changeStatus">Load poster</v-btn></h2></v-container>
+        <v-layout v-if="show" key="0" wrap>
+            <v-img :src="movie.poster" max-height="729" max-width="547" class="grey darken-4"></v-img>
+        </v-layout>
+        <v-container><h1>Director :</h1></v-container>
+        <v-container><h2>Name : {{movie.director.name}}</h2></v-container>
+        <v-container><h2>Nationality : {{movie.director.nationality}}</h2></v-container>
+        <v-container><h2>Birthday : {{movie.director.birthday}}</h2></v-container>
+      </v-flex>
+      <v-flex xs12 sm4 pa-2>
+        <v-btn color="success" v-on:click="$router.push({ name: 'edit', params: { id: movie.id } })">Edit</v-btn>
+        <v-btn color="error" @click="supp">Delete</v-btn>
         <v-btn color="warning" v-on:click="$router.push({ name: 'home'})">Cancel</v-btn>
-    </v-form>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "movieitem",
-  props: ["movie"],
+  //props: ["movie"],
   data: function() {
     return {
+      show: false,
+      movies: new Array(),
+      movie: new Array(),
       display_details: false,
       valid: true,
-                date: new Date().toISOString().substr(0, 10),
-                menu: false,
-                modal: false,
-                menu2: false,
-                Name: '',
-                nameRules: [
-                    n => !!n || 'Name is required',
-                    n => (n && n.length <= 50) || 'Name must be less than 50 characters'
-                ],
-                Title: '',
-                titleRules: [
-                    t => !!t || 'Title is required',
-                    t => (t && t.length <= 35) || 'Title must be less than 35 characters'
-                ],
-                Synopsys: '',
-                synopsysRules: [
-                    s => !!s || 'Synopsys is required'
-                ],
-                Genre: '',
-                genreRules: [
-                    g => !!g || 'Genre is required',
-                    g => (g && g.length <= 20) || 'Genre must be less than 20 characters'
-                ],
-                Year: '',
-                yearRules: [
-                    y => !!y || 'Year is required',
-                    y => (y && y.length == 4) || 'Year must be than 4 characters'
-                ],
-                Nationality: '',
-                nationalityRules: [
-                    a => !!a || 'Nationality is required',
-                    a => (a && a.length <= 30) || 'Nationality must be less than 30 characters'
-                ],
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      modal: false,
+      menu2: false,
     };
   },
   methods: {
+    changeStatus(){
+      this.show = !this.show;
+      console.log(show);
+      return show;
+    },
     edit() {
+      this.$emit("edit", this.movie);
+    },
+    supp() {
       this.$emit("edit", this.movie);
     },
     remove(id) {
@@ -95,5 +67,30 @@ export default {
         this.snackbar = true
       }
     },
-}};
+    getUrlVars() {
+      var vars = {};
+      var parts = window.location.href;
+      vars = parts.split('/');
+      return vars;
+    },
+
+  },
+  created: function() {
+            console.log("Created");
+            var $this = this;
+            axios.get("http://localhost:8080/api/movies/all").then(function(response) {
+                if (response.status == 200) {
+                    $this.movies = response.data;
+                    $this.movies.forEach(element => {
+                      var vars = {};
+                      var parts = window.location.href;
+                      vars = parts.split('/');
+                      if(element.id == vars[4] || element.id == vars[5]){
+                        $this.movie = element;
+                      };
+                    });
+                }
+            });
+        },
+};
 </script>

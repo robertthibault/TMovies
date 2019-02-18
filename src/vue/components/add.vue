@@ -3,10 +3,11 @@
         <h1>Add New movie :</h1>
         <br />
         <!--  movie.director.name -->
-        <v-text-field v-model="movie_to_add.title" :counter="35" :rules="titleRules" label="Title" required></v-text-field>
+        <v-text-field v-model="movie_to_add.title" :counter="70" :rules="titleRules" label="Title" required></v-text-field>
         <v-textarea v-model="movie_to_add.synopsys" name="input-7-4" :rules="synopsysRules" label="Synopsys" required></v-textarea>
         <v-text-field v-model="movie_to_add.year" :counter="4" :rules="yearRules" label="Year" required type="number"></v-text-field>
-        <v-text-field v-model="movie_to_add.genre" :counter="20" :rules="genreRules" label="Genre" required></v-text-field>
+        <v-text-field v-model="movie_to_add.genre" :counter="40" :rules="genreRules" label="Genre" required></v-text-field>
+        <v-text-field v-model="movie_to_add.poster" label="URL Poster"></v-text-field>
         <h2>Director :</h2>
         <v-text-field v-model="director.name" :counter="40" :rules="nameRules" label="Name" required></v-text-field>
         <v-text-field v-model="director.nationality" :counter="30" :rules="nationalityRules" label="Nationality" required></v-text-field>
@@ -46,7 +47,7 @@
                 // Title: '',
                 titleRules: [
                     t => !!t || 'Title is required',
-                    t => (t && t.length <= 35) || 'Title must be less than 35 characters'
+                    t => (t && t.length <= 70) || 'Title must be less than 35 characters'
                 ],
                 // Synopsys: '',
                 synopsysRules: [
@@ -55,7 +56,7 @@
                 // Genre: '',
                 genreRules: [
                     g => !!g || 'Genre is required',
-                    g => (g && g.length <= 20) || 'Genre must be less than 20 characters'
+                    g => (g && g.length <= 40) || 'Genre must be less than 20 characters'
                 ],
                 // Year: '',
                 yearRules: [
@@ -76,35 +77,38 @@
                     this.snackbar = true
                 }
             },
+            /*           Fonction pour ré-initialiser le formulaire           */
             reset () {
                 this.$refs.form.reset()
             },
-            lastId: function(liste){
-                let leLast = 0;
-                this.liste.forEach(element => {
-                    let identifiant = element.id;
-                    if(this.identifiant >= this.leLast && this.identifiant != 0){
-                        this.leLast = this.identifiant;
+            /*           Fonction pour ajouter un nouveau film dans l'API           */
+            newmovie: function () {
+                ///   Cherhce l'id le plus grand et ajoute 1 à la valeur   ///
+                let derenierId = 0;
+                this.movies.forEach(element => {
+                    let idActu = element.id;
+                    if(idActu >= derenierId && idActu != 0){
+                        derenierId = idActu;
                     }
                 });
-                return (this.leLast + 1);
-            },
-            newmovie: function () {
-                // let ident = lastId(this.movies);
-                // this.movie_to_add.id = this.ident;
-                this.movie_to_add.id = 4;
-                console.log(this.movie_to_add.id);
+                derenierId += 1;
+                ///   Permet de donner à l'objet movie_to_add toutes ses valeurs   ///
+                this.movie_to_add.id = derenierId;
+                this.movie_to_add.ratings = [];
                 this.birthday = this.date;
                 this.director.birthday = this.birthday;
-                console.log(this.director);
                 this.movie_to_add.director = this.director;
-                console.log(this.movie_to_add);
                 this.movies.push(this.movie_to_add);
+                ///   Ajoute le nouvel objet à l'API   ///
                 axios.post('/api/movies/all', this.movie_to_add);
+                ///   Ré-initialise tout   ///
                 this.movie_to_add = {};
                 this.director = {};
+                ///   Permet de revenir à la page d'accueil   ///
+                this.$router.push({ name: 'home'})
             },
         },
+        /*           Créer l'objet movies en fonction des donnée de l'API           */
         created: function() {
             console.log("Created");
             var $this = this;

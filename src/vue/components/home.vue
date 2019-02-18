@@ -12,7 +12,8 @@
       <v-flex xs12 sm4 pa-2 v-for="(movie) in movies_search" v-bind:key="movie.title">
         <v-card>
           <!-- <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75"></v-img> -->
-          <v-img src="http://fr.web.img3.acsta.net/r_1280_720/medias/nmedia/18/36/27/14/20051394.jpg"></v-img>
+          <!-- <v-img src="http://fr.web.img3.acsta.net/r_1280_720/medias/nmedia/18/36/27/14/20051394.jpg"></v-img> -->
+          <v-img :src="yesNo(movie.poster)" max-height="729"></v-img>
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{ movie.title }}</h3>
@@ -21,12 +22,7 @@
             </div>
           </v-card-title>
           <v-card-actions>
-            <v-btn
-              slot="activator"
-              color="purple"
-              dark
-              v-on:click="$router.push({ name: 'movieitem', params: { id: movie.id } })"
-            >More info</v-btn>
+            <v-btn slot="activator" color="purple" dark v-on:click="$router.push({ name: 'movieitem', params: { id: movie.id } })">More info</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -50,6 +46,13 @@ export default {
       let result = 0;
       ratings.forEach(r => (result += r));
       return result / ratings.length;
+    },
+    yesNo(url){
+      let resultat = "require('@/../../static/noImage.jpg')";
+      if(url.indexOf(".jpg") != -1 || url.indexOf(".png") != -1 || url.indexOf(".jpeg") != -1){
+        resultat = url;
+      }
+      return resultat;
     },
   },
 
