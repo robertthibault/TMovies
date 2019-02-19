@@ -72,11 +72,6 @@
         },
         name: "add",
         methods: {
-            validate () {
-                if (this.$refs.form.validate()) {
-                    this.snackbar = true
-                }
-            },
             /*           Fonction pour ré-initialiser le formulaire           */
             reset () {
                 this.$refs.form.reset()

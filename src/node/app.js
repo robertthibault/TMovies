@@ -86,6 +86,11 @@ app.post('/api/movies/all', (req, res) => {
     res.json(global.movies);
 });
 
+app.delete('/api/movies/all', (req, res) => {
+    delete global.movies[req.body];
+    res.json(global.movies);
+});
+
 //open(`http://localhost:${port}`);
 
 app.listen(port, hostname, () => {
