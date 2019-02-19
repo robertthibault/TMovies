@@ -103,7 +103,7 @@ export default {
       this.$emit("edit", this.movie);
     },
     supp() {
-      axios.delete('/api/movies/all', this.movie.id);
+      axios.delete('/api/movies/all', this.movie);
       ///   Ré-initialise dialogDelete   ///
       this.dialogDelete = !this.dialogDelete;
       ///   Permet de revenir à la page d'accueil   ///

@@ -87,7 +87,14 @@ app.post('/api/movies/all', (req, res) => {
 });
 
 app.delete('/api/movies/all', (req, res) => {
-    delete global.movies[req.body];
+    //app.delete('/movie/:id', (req, res) => {
+    // global.movies.destroy({
+    //     where: {
+    //         id: req.id
+    //     }
+    // });
+    console.log(req.id);
+    //delete global.movies.id[req.id];
     res.json(global.movies);
 });
 
