@@ -86,15 +86,21 @@ app.post('/api/movies/all', (req, res) => {
     res.json(global.movies);
 });
 
-app.delete('/api/movies/all', (req, res) => {
-    //app.delete('/movie/:id', (req, res) => {
-    // global.movies.destroy({
-    //     where: {
-    //         id: req.id
-    //     }
-    // });
-    console.log(req.id);
-    //delete global.movies.id[req.id];
+// app.delete('/movie/' + req.id, (req, res) => {
+//     //app.delete('/movie/:id', (req, res) => {
+//     // global.movies.destroy({
+//     //     where: {
+//     //         id: req.id
+//     //     }
+//     // });
+//     console.log(req.id);
+//     delete global.movies.id[req.id];
+//     res.json(global.movies);
+// });
+
+app.delete('/api/movies/:id', (req, res) => {
+    console.log(req.params.id);
+    global.movies.filter(movie => movie.id != req.params.id);
     res.json(global.movies);
 });
 

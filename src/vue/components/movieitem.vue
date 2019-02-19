@@ -50,7 +50,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="supp()">I accept</v-btn>
+          <v-btn color="primary" flat @click="remove()">I accept</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -99,23 +99,27 @@ export default {
       console.log(dialogDelete);
       return dialogDelete;
     },
-    edit() {
-      this.$emit("edit", this.movie);
-    },
-    supp() {
-      axios.delete('/api/movies/all', this.movie);
+    // supp() {
+    //   axios.delete('/movie/' + this.movie.id, this.movie);
+    //   ///   Ré-initialise dialogDelete   ///
+    //   this.dialogDelete = !this.dialogDelete;
+    //   ///   Permet de revenir à la page d'accueil   ///
+    //   this.$router.push({ name: 'home'})
+    // },
+    remove() {
+      axios.delete(`/api/movies/${this.$route.params.id}`);
       ///   Ré-initialise dialogDelete   ///
       this.dialogDelete = !this.dialogDelete;
       ///   Permet de revenir à la page d'accueil   ///
       this.$router.push({ name: 'home'})
     },
-    remove(id) {
-        if (confirm("Voulez-vous vraiment supprimer ce film ?")) {
-            this.$store.dispatch('deleteMovieInAPI', this.id).then(() => {
-                this.$router.push({ name: 'home' });
-            });
-        }
-    },
+    // remove(id) {
+    //     if (confirm("Voulez-vous vraiment supprimer ce film ?")) {
+    //         this.$store.dispatch('deleteMovieInAPI', this.id).then(() => {
+    //             this.$router.push({ name: 'home' });
+    //         });
+    //     }
+    // },
     getUrlVars() {
       var vars = {};
       var parts = window.location.href;
