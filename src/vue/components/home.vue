@@ -28,6 +28,7 @@
       </v-flex>
     </v-layout>
     <v-btn slot="activator" color="green" dark v-on:click="$router.push({ name: 'add'})">Add a Movie</v-btn>
+    
   </v-container>
 </template>
 
@@ -37,11 +38,17 @@ export default {
   name: "home",
   data() {
     return {
+      drawer: false,
       movies: new Array(),
       search: '',
     };
   },
   methods: {
+    drawerSetFalse(){
+      if(this.drawer){
+        this.drawer = !this.drawer;
+      }
+    },
     averageRating(ratings) {
       let result = 0;
       ratings.forEach(r => (result += r));

@@ -30,6 +30,7 @@
     export default {
         data() {
             return{
+                drawer: false,
                 movies: new Array(),
                 movie_to_add: {},
                 director: {},
@@ -101,6 +102,11 @@
                 this.director = {};
                 ///   Permet de revenir à la page d'accueil   ///
                 this.$router.push({ name: 'home'})
+            },
+            drawerSetFalse(){
+                if(this.drawer){
+                    this.drawer = !this.drawer;
+                }
             },
         },
         /*           Créer l'objet movies en fonction des donnée de l'API           */

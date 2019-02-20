@@ -87,8 +87,12 @@ app.post('/api/movies/all', (req, res) => {
 });
 
 app.delete('/api/movies/:id', (req, res) => {
-    console.log(req.params.id);
     global.movies = global.movies.filter(movie => movie.id != req.params.id);
+    res.json(global.movies);
+});
+
+app.put('/api/movies/:id', (req, res) => {
+    global.movies = global.movies.put(req.body);
     res.json(global.movies);
 });
 

@@ -66,6 +66,7 @@ export default {
   //props: ["movie"],
   data: function() {
     return {
+      drawer: false,
       showPoster: false,
       showSynopsys: false,
       movies: new Array(),
@@ -80,6 +81,11 @@ export default {
     };
   },
   methods: {
+    drawerSetFalse(){
+      if(this.drawer){
+        this.drawer = !this.drawer;
+      }
+    },
     averageRating(ratings) {
       let result = 0;
       ratings.forEach(r => (result += r));
