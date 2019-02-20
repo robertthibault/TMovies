@@ -39,7 +39,8 @@
       </v-flex>
       <v-flex xs12 sm4 pa-2>
         <v-btn color="success" v-on:click="$router.push({ name: 'edit', params: { id: movie.id } })">Edit</v-btn>
-        <v-btn color="error" v-on:click="changeStatusDialogDelete">Delete</v-btn>
+        <!-- <v-btn color="error" v-on:click="changeStatusDialogDelete">Delete</v-btn> -->
+        <v-btn color="error" v-on:click="changeStatusDialogDelete()">Delete</v-btn>
         <v-btn color="warning" v-on:click="$router.push({ name: 'home'})">Cancel</v-btn>
       </v-flex>
     </v-container>
@@ -50,7 +51,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="remove()">I accept</v-btn>
+          <v-btn color="primary" flat v-on:click="remove()">I accept</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -99,27 +100,13 @@ export default {
       console.log(dialogDelete);
       return dialogDelete;
     },
-    // supp() {
-    //   axios.delete('/movie/' + this.movie.id, this.movie);
-    //   ///   Ré-initialise dialogDelete   ///
-    //   this.dialogDelete = !this.dialogDelete;
-    //   ///   Permet de revenir à la page d'accueil   ///
-    //   this.$router.push({ name: 'home'})
-    // },
     remove() {
-      axios.delete(`/api/movies/${this.$route.params.id}`);
       ///   Ré-initialise dialogDelete   ///
+      axios.delete(`/api/movies/${this.$route.params.id}`);
       this.dialogDelete = !this.dialogDelete;
       ///   Permet de revenir à la page d'accueil   ///
-      this.$router.push({ name: 'home'})
+      this.$router.push({ name: 'home'});
     },
-    // remove(id) {
-    //     if (confirm("Voulez-vous vraiment supprimer ce film ?")) {
-    //         this.$store.dispatch('deleteMovieInAPI', this.id).then(() => {
-    //             this.$router.push({ name: 'home' });
-    //         });
-    //     }
-    // },
     getUrlVars() {
       var vars = {};
       var parts = window.location.href;
