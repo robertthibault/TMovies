@@ -92,7 +92,7 @@ app.delete('/api/movies/:id', (req, res) => {
 });
 
 app.put('/api/movies/:id', (req, res) => {
-    global.movies = global.movies.put(req.body);
+    global.movies.push(req.body);
     res.json(global.movies);
 });
 

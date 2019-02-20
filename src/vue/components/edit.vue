@@ -44,9 +44,17 @@
                     this.drawer = !this.drawer;
                 }
             },
+            // updateMovie() {
+            //     ///   Ré-initialise dialogDelete   ///
+            //     axios.put(`/api/movies/${this.$route.params.id}`, this.movie_to_edit);
+            //     this.movie_to_edit = {};
+            //     ///   Permet de revenir à la page d'accueil   ///
+            //     this.$router.push({ name: 'home'});
+            // },
             updateMovie() {
                 ///   Ré-initialise dialogDelete   ///
-                axios.put(`/api/movies/${this.$route.params.id}`, this.movie_to_edit);
+                axios.delete(`/api/movies/${this.$route.params.id}`);
+                axios.post('/api/movies/all', this.movie_to_edit);
                 this.movie_to_edit = {};
                 ///   Permet de revenir à la page d'accueil   ///
                 this.$router.push({ name: 'home'});
