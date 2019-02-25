@@ -16,7 +16,7 @@
               <h2 style="color: #37474F">Synopsys:</h2>
               <v-btn color="info" style="margin-left: 20px" dark v-on:click="changeStatusShowSynopsys">Load</v-btn>
             </v-card-title>
-            <v-card-title v-if="showSynopsys"><v-card-text style="margin-left: 10px">{{movie.synopsys}}</v-card-text></v-card-title>
+            <v-card-title v-if="showSynopsys"><v-card-text style="margin-left: 10px; font-size:16px">{{movie.synopsys}}</v-card-text></v-card-title>
             <v-card-title style="margin-top: 8px"><h2 style="color: #37474F">Year:</h2><h2 style="margin-left: 20px">{{ movie.year }}</h2></v-card-title>
             <v-card-title style="margin-top: 8px"><h2 style="color: #37474F">Genre:</h2><h2 style="margin-left: 20px">{{ movie.genre }}</h2></v-card-title>
             <v-card-title style="margin-top: 8px">
@@ -43,6 +43,10 @@
         <v-btn color="error" v-on:click="changeStatusDialogDelete()">Delete</v-btn>
         <v-btn color="warning" v-on:click="$router.push({ name: 'home'})">Cancel</v-btn>
       </v-flex>
+      <v-form v-model="valid">
+        <v-text-field v-model="theRate" :counter="1" :rules="rateRules" label="Rate" required type="number"></v-text-field>
+        <v-btn :disabled="!valid" color="yellow darken-1" v-on:click="rateMovie()">Rate</v-btn>
+      </v-form>
     </v-container>
     <div class="text-xs-center">
     <v-dialog v-model="dialogDelete" v-if="dialogDelete" width="500">
@@ -78,6 +82,13 @@ export default {
       modal: false,
       menu2: false,
       dialogDelete: false,
+      valid: true,
+      theRate: null,
+      rateRules: [
+        y => !!y || 'Rate is required',
+        y => (y && y.length == 1) || 'Rate must be than 1 characters',
+        y => (y && (y == 0 || y == 1 || y == 2 || y == 3 || y == 4 || y == 5 || y == 0.5 || y == 1.5 || y == 2.5 || y == 3.5 || y == 4.5)) || 'Rate must be between 0 and 5'
+      ],
     };
   },
   methods: {
@@ -118,6 +129,13 @@ export default {
       var parts = window.location.href;
       vars = parts.split('/');
       return vars;
+    },
+    rateMovie(){
+      axios.post(`/api/movies/${this.$route.params.id}`, parseInt(this.theRate));
+      console.log(this.theRate);
+      console.log(typeof parseInt(this.theRate));
+      this.theRate = null;
+      this.$router.push({ name: 'home'});
     },
 
   },

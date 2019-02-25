@@ -41,6 +41,7 @@ export default {
       drawer: false,
       movies: new Array(),
       search: '',
+      user: {},
     };
   },
   methods: {
@@ -55,7 +56,7 @@ export default {
       return result / ratings.length;
     },
     yesNo(url){
-      let resultat = "require('@/../../static/noImage.jpg')";
+      let resultat = "require('@./../static/noImage.jpg')";
       if(url.indexOf(".jpg") != -1 || url.indexOf(".png") != -1 || url.indexOf(".jpeg") != -1){
         resultat = url;
       }
@@ -69,8 +70,17 @@ export default {
     axios.get("http://localhost:8080/api/movies/all").then(function(response) {
       if (response.status == 200) {
         $this.movies = response.data;
+      };
+    });
+    axios.get("http://localhost:8080/api/user").then(function(response) {
+      if (response.status == 200) {
+        $this.user = response.data;
       }
     });
+    if($this.user.length == 1){
+      axios.post('/api/user', this.user);
+      window.location.reload();
+    };
   },
 
   computed: {

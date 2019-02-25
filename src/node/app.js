@@ -62,6 +62,28 @@ global.movies = [{
     ratings: [4, 5]
 }];
 
+global.users = [
+    {
+        id: 0,
+        email: "test@test.test",
+        password: "test",
+        firstname: "test",
+        lastname: "test",
+        votes: {},
+    },
+    {
+        id: 1,
+        email: "robert.thibault33@gmail.com",
+        password: "test",
+        firstname: "Thibault",
+        lastname: "ROBERT",
+        votes: {},
+    },
+
+];
+
+global.user = [];
+
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://' + hostname + ':' + port);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -85,6 +107,14 @@ app.post('/api/movies/all', (req, res) => {
     global.movies.push(req.body);
     res.json(global.movies);
 });
+app.post('/api/movies/:id', (req, res) => {
+    global.movies.forEach(element => {
+        if(element.id === req.params.id){
+            element.ratings.push(req.body);
+        }    
+    });
+    res.json(global.movies);
+});
 
 app.delete('/api/movies/:id', (req, res) => {
     global.movies = global.movies.filter(movie => movie.id != req.params.id);
@@ -94,6 +124,24 @@ app.delete('/api/movies/:id', (req, res) => {
 app.put('/api/movies/:id', (req, res) => {
     global.movies.push(req.body);
     res.json(global.movies);
+});
+
+///     USERS     ///
+app.get('/api/users/all', function (req, res) {
+    res.json(global.users);
+});
+
+///     USER     ///
+app.get('/api/user', function (req, res) {
+    res.json(global.user);
+});
+app.post('/api/user', (req, res) => {
+    global.user.push(req.body);
+    res.json(global.user);
+});
+app.delete('/api/user', (req, res) => {
+    global.user = global.user.filter(user => user.id != 0 || user.id != 1);
+    res.json(global.user);
 });
 
 //open(`http://localhost:${port}`);
