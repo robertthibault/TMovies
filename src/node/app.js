@@ -112,8 +112,11 @@ app.post('/api/movies/:id', (req, res) => {
     console.log(req.body);
     console.log(req.params.id);
     global.movies.forEach(element => {
-        if(element.id === req.params.id){
+        if(element.id == req.params.id){
+            console.log(req.body[0]);
+            console.log(element.ratings);
             element.ratings.push(req.body);
+            console.log(element.ratings);
         }    
     });
     res.json(global.movies);

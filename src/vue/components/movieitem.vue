@@ -45,7 +45,7 @@
       </v-flex>
       <v-form v-model="valid">
         <v-text-field v-model="theRate" :counter="1" :rules="rateRules" label="Rate" required type="number"></v-text-field>
-        <v-btn dark :disabled="!valid" color="yellow darken-1" v-on:click="rateMovie()">Rate</v-btn>
+        <v-btn :disabled="!valid" color="yellow darken-1" v-on:click="rateMovie()">Rate</v-btn>
       </v-form>
     </v-container>
     <div class="text-xs-center">
@@ -83,7 +83,6 @@ export default {
       menu2: false,
       dialogDelete: false,
       valid: true,
-      theRate: null,
       rateRules: [
         y => !!y || 'Rate is required',
         y => (y && y.length == 1) || 'Rate must be than 1 characters',
