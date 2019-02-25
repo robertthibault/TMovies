@@ -45,7 +45,7 @@
       </v-flex>
       <v-form v-model="valid">
         <v-text-field v-model="theRate" :counter="1" :rules="rateRules" label="Rate" required type="number"></v-text-field>
-        <v-btn :disabled="!valid" color="yellow darken-1" v-on:click="rateMovie()">Rate</v-btn>
+        <v-btn dark :disabled="!valid" color="yellow darken-1" v-on:click="rateMovie()">Rate</v-btn>
       </v-form>
     </v-container>
     <div class="text-xs-center">

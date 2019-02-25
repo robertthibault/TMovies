@@ -108,6 +108,9 @@ app.post('/api/movies/all', (req, res) => {
     res.json(global.movies);
 });
 app.post('/api/movies/:id', (req, res) => {
+    console.log("je suis passer dans l'ajout d'une note");
+    console.log(req.body);
+    console.log(req.params.id);
     global.movies.forEach(element => {
         if(element.id === req.params.id){
             element.ratings.push(req.body);
@@ -117,6 +120,7 @@ app.post('/api/movies/:id', (req, res) => {
 });
 
 app.delete('/api/movies/:id', (req, res) => {
+    console.log("je suis passer dans le delete");
     global.movies = global.movies.filter(movie => movie.id != req.params.id);
     res.json(global.movies);
 });
