@@ -6,10 +6,10 @@ import HomeComponent from './components/home.vue';
 import EditComponent from './components/edit.vue';
 import AddComponent from './components/add.vue';
 import SignInComponent from './components/signin.vue';
-//import VueResource from 'vue-resource';
 
 Vue.use(VueRouter);
 
+//Permet d'initialiser toutes les routes pour être redirigé
 const routes = [
     { path: '/', component: HomeComponent, name: 'home' },
     { path: '/movie/:id', component: MovieItemComponent, name: 'movieitem' },

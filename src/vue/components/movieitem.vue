@@ -70,6 +70,7 @@ export default {
   //props: ["movie"],
   data: function() {
     return {
+      obj: {},
       drawer: false,
       showPoster: false,
       showSynopsys: false,
@@ -130,7 +131,8 @@ export default {
       return vars;
     },
     rateMovie(){
-      axios.post(`/api/movies/${this.$route.params.id}`, parseInt(this.theRate));
+      this.obj.grade = this.theRate;
+      axios.post(`/api/movies/${this.$route.params.id}`, this.obj);
       console.log(this.theRate);
       console.log(typeof parseInt(this.theRate));
       this.theRate = null;

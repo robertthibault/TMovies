@@ -3,16 +3,16 @@
     <v-layout row wrap>
       <v-flex xs12 sm5 pa-2>
         <v-container>
+          <!-- Champs pour rechercher un film par son titre -->
           <v-text-field v-model="search" label="Search Movie" required outline></v-text-field>
         </v-container>
       </v-flex>
     </v-layout>
+    <!-- Affiche tous les films présent dans la variable movies -->
     <v-layout row wrap>
-      <!-- <v-flex xs12 sm4 pa-2 v-for="(movie) in movies" v-if="existe(movie.title, Search)" v-bind:key="movie.title"> -->
       <v-flex xs12 sm4 pa-2 v-for="(movie) in movies_search" v-bind:key="movie.title">
         <v-card>
-          <!-- <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75"></v-img> -->
-          <!-- <v-img src="http://fr.web.img3.acsta.net/r_1280_720/medias/nmedia/18/36/27/14/20051394.jpg"></v-img> -->
+          <!-- Affiche tous les films présent dans la variable movies -->
           <v-img :src="yesNo(movie.poster)" max-height="729"></v-img>
           <v-card-title primary-title>
             <div>
@@ -45,16 +45,19 @@ export default {
     };
   },
   methods: {
+    /*    Permet de set la variable drawer à false    */
     drawerSetFalse(){
       if(this.drawer){
         this.drawer = !this.drawer;
       }
     },
+    /*    Permet de faire la moyenne de toutes les notes d'un film    */
     averageRating(ratings) {
       let result = 0;
       ratings.forEach(r => (result += r));
       return result / ratings.length;
     },
+    /*    Permet de savoir si il existe une image pour un film    */
     yesNo(url){
       let resultat = "require('@./../static/noImage.jpg')";
       if(url.indexOf(".jpg") != -1 || url.indexOf(".png") != -1 || url.indexOf(".jpeg") != -1){
@@ -63,7 +66,8 @@ export default {
       return resultat;
     },
   },
-
+  /*    Permet d'initialiser la variable movies avec les données de tous les films
+        Et permet d'initialiser la variable user avec le user connecté    */
   created: function() {
     console.log("Created");
     var $this = this;
@@ -84,9 +88,11 @@ export default {
   },
 
   computed: {
+    /*    Permet de retourner la première lettre du message    */
     firstletter: function() {
       return this.message[0];
     },
+    /*    Permet de trouver les films correspondant à la chaîne de caractères du champs search    */
     movies_search: function(chaine) {
       return this.movies.filter(
         m => m.title.toLowerCase().indexOf(this.search.toLowerCase()) != -1

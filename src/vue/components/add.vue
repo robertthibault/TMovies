@@ -2,12 +2,13 @@
     <v-form ref="form" v-model="valid" lazy-validation>
         <h1>Add New movie :</h1>
         <br />
-        <!--  movie.director.name -->
+        <!--   Formulaire pour renseigner les données du film qu'on veut ajouter   -->
         <v-text-field v-model="movie_to_add.title" :counter="70" :rules="titleRules" label="Title" required></v-text-field>
         <v-textarea v-model="movie_to_add.synopsys" name="input-7-4" :rules="synopsysRules" label="Synopsys" required></v-textarea>
         <v-text-field v-model="movie_to_add.year" :counter="4" :rules="yearRules" label="Year" required type="number"></v-text-field>
         <v-text-field v-model="movie_to_add.genre" :counter="40" :rules="genreRules" label="Genre" required></v-text-field>
         <v-text-field v-model="movie_to_add.poster" label="URL Poster"></v-text-field>
+        <!--   Formulaire pour renseigner les données du réalisateur du film qu'on veut ajouter   -->
         <h2>Director :</h2>
         <v-text-field v-model="director.name" :counter="40" :rules="nameRules" label="Name" required></v-text-field>
         <v-text-field v-model="director.nationality" :counter="30" :rules="nationalityRules" label="Nationality" required></v-text-field>
@@ -103,6 +104,7 @@
                 ///   Permet de revenir à la page d'accueil   ///
                 this.$router.push({ name: 'home'})
             },
+            //Permet de set la valeur de la variable drawer à false
             drawerSetFalse(){
                 if(this.drawer){
                     this.drawer = !this.drawer;
@@ -119,18 +121,6 @@
                 }
             });
         },
-        computed: {
-            /*lastId(liste){
-                let leLast = 0;
-                let identifiant = element.id;
-                liste.forEach(element => {
-                    if(this.identifiant >= this.leLast && this.identifiant != 0){
-                        this.leLast = this.identifiant;
-                    }
-                });
-                return this.leLast + 1;
-            }*/
-        }
     }
 </script>
 

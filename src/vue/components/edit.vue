@@ -2,7 +2,7 @@
     <v-form ref="form" v-model="valid" lazy-validation>
         <h1>Edit movie :</h1>
         <br />
-        <!--  movie.director.name -->
+        <!--  Formulaire pour éditer un film (les champs sont pré-remplit par les données du film) -->
         <v-text-field v-model="movie_to_edit.title" :counter="70" :rules="titleRules" label="Title" required></v-text-field>
         <v-textarea v-model="movie_to_edit.synopsys" name="input-7-4" :rules="synopsysRules" label="Synopsys" required></v-textarea>
         <v-text-field v-model="movie_to_edit.year" :counter="4" :rules="yearRules" label="Year" required type="number"></v-text-field>
@@ -39,18 +39,13 @@
             }
         },
         methods: {
+            /*    Permet de set à false la variabl drawer    */
             drawerSetFalse(){
                 if(this.drawer){
                     this.drawer = !this.drawer;
                 }
             },
-            // updateMovie() {
-            //     ///   Ré-initialise dialogDelete   ///
-            //     axios.put(`/api/movies/${this.$route.params.id}`, this.movie_to_edit);
-            //     this.movie_to_edit = {};
-            //     ///   Permet de revenir à la page d'accueil   ///
-            //     this.$router.push({ name: 'home'});
-            // },
+            /*    Permet d'update les données d'un film (de changer les données)    */
             updateMovie() {
                 ///   Ré-initialise dialogDelete   ///
                 axios.delete(`/api/movies/${this.$route.params.id}`);
@@ -60,6 +55,8 @@
                 this.$router.push({ name: 'home'});
             },
         },
+        /*    Permet d'initialiser la variable movies par toutes la liste des films
+              Et permet d'initialiser la variable movie_to_edit avec l'id du film passé par l'url    */
         created: function() {
             console.log("Created");
             var $this = this;

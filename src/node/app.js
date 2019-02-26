@@ -10,14 +10,8 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-/*app.use(express.static(path.resolve('src/static')));
-app.use(express.static(path.resolve('src/dist')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));*/
-app.listen(port);
 
-//var apiRoutes = require('./routes.js');
-//app.use('/api', apiRoutes)
+app.listen(port);
 
 global.movies = [{
     id: 0,
@@ -92,67 +86,71 @@ app.use(function (req, res, next) {
     next();
 });
 
+//Permet d'initialiser les film de global.movies dans l'api
 app.get('/api/movies/all', function (req, res) {
     res.json(global.movies);
 });
-
+//Permet de rediriger vers l'index.html quand on a juste un /
 app.get('/', function (req, res) {
     res.sendFile(path.resolve('src/dist/index.html'));
 });
+//Permet de voir le build.js
 app.get('/build.js', function (req, res) {
     res.sendFile(path.resolve('src/dist/build.js'));
 });
-
+//Permet d'ajouter un film dans l'objet global.movies et repush dans l'api
 app.post('/api/movies/all', (req, res) => {
     global.movies.push(req.body);
     res.json(global.movies);
 });
+//Permet d'ajouter un note dans le tableau ratings d'un film
 app.post('/api/movies/:id', (req, res) => {
     console.log("je suis passer dans l'ajout d'une note");
     console.log(req.body);
     console.log(req.params.id);
     global.movies.forEach(element => {
         if(element.id == req.params.id){
-            console.log(req.body[0]);
-            console.log(element.ratings);
-            element.ratings.push(req.body);
-            console.log(element.ratings);
+            element.ratings.push(parseInt(req.body.grade));
         }    
     });
     res.json(global.movies);
 });
-
+//Permet de supprimer un film dans l'objet global.movies et repush dans l'api
 app.delete('/api/movies/:id', (req, res) => {
     console.log("je suis passer dans le delete");
     global.movies = global.movies.filter(movie => movie.id != req.params.id);
     res.json(global.movies);
 });
-
+//Permet de modifier les données d'un film
 app.put('/api/movies/:id', (req, res) => {
     global.movies.push(req.body);
     res.json(global.movies);
 });
 
 ///     USERS     ///
+
+//Permet de mettre les différents utilisateurs dans une api
 app.get('/api/users/all', function (req, res) {
     res.json(global.users);
 });
 
 ///     USER     ///
+//Permet d'initialiser l'utilisateur connecté dans l'api
 app.get('/api/user', function (req, res) {
     res.json(global.user);
 });
+//Permet d'ajouter l'utilisateur connecté dans l'objet user puis le mettre dans l'api
 app.post('/api/user', (req, res) => {
     global.user.push(req.body);
     res.json(global.user);
 });
+//permet de supprimer l'utilisateur connecté de l'objet user
 app.delete('/api/user', (req, res) => {
     global.user = global.user.filter(user => user.id != 0 || user.id != 1);
     res.json(global.user);
 });
 
-//open(`http://localhost:${port}`);
-
+//permet de connaitre l'ip du serveur
 app.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
