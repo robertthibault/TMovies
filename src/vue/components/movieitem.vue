@@ -5,6 +5,7 @@
         <v-container><h1>Movie</h1></v-container>
       </v-flex>
     </v-layout>
+    <!--   Affichage pour voir tous les détails d'un film   -->
     <v-container fluid grid-list-md>
       <v-flex xs12 sm12 md4 lg6>
         <v-card>
@@ -14,6 +15,7 @@
             <v-card-title><h2 style="color: #37474F">Title:</h2><h2 style="margin-left: 20px">{{ movie.title }}</h2></v-card-title>
             <v-card-title style="margin-top: 8px">
               <h2 style="color: #37474F">Synopsys:</h2>
+              <!--   Bonton permettant d'afficher le synopsys   -->
               <v-btn color="info" style="margin-left: 20px" dark v-on:click="changeStatusShowSynopsys">Load</v-btn>
             </v-card-title>
             <v-card-title v-if="showSynopsys"><v-card-text style="margin-left: 10px; font-size:16px">{{movie.synopsys}}</v-card-text></v-card-title>
@@ -24,6 +26,7 @@
               <v-rating :value="averageRating(movie.ratings)" style="margin-left: 20px" color="amber" dense half-increments readonly size="28"></v-rating>
               <h2>{{averageRating(movie.ratings)}}</h2>
             </v-card-title>
+            <!--   Bouton permettant d'afficher le poster du film   -->
             <v-card-title><h2>Poster: <v-btn style="margin-left: 20px" color="purple" dark v-on:click="changeStatusShowPoster">Load poster</v-btn></h2></v-card-title>
             <v-card-title v-if="showPoster">
               <v-img :src="movie.poster" max-height="729" max-width="547" class="grey darken-4"></v-img>
@@ -39,10 +42,10 @@
       </v-flex>
       <v-flex xs12 sm4 pa-2>
         <v-btn color="success" v-on:click="$router.push({ name: 'edit', params: { id: movie.id } })">Edit</v-btn>
-        <!-- <v-btn color="error" v-on:click="changeStatusDialogDelete">Delete</v-btn> -->
         <v-btn color="error" v-on:click="changeStatusDialogDelete()">Delete</v-btn>
         <v-btn color="warning" v-on:click="$router.push({ name: 'home'})">Cancel</v-btn>
       </v-flex>
+      <!--   Partie permettant de noter un film   -->
       <v-form v-model="valid">
         <v-text-field v-model="theRate" :counter="1" :rules="rateRules" label="Rate" required type="number"></v-text-field>
         <v-btn :disabled="!valid" color="yellow darken-1" v-on:click="rateMovie()">Rate</v-btn>
@@ -84,6 +87,7 @@ export default {
       menu2: false,
       dialogDelete: false,
       valid: true,
+      /*   Règle pour pouvoir afficher le bouton pour noter   */
       rateRules: [
         y => !!y || 'Rate is required',
         y => (y && y.length == 1) || 'Rate must be than 1 characters',
@@ -92,31 +96,37 @@ export default {
     };
   },
   methods: {
+    /*   Permet de set la variable drawer à false   */
     drawerSetFalse(){
       if(this.drawer){
         this.drawer = !this.drawer;
       }
     },
+    /*   Permet retourner la moyenne des notes du film   */
     averageRating(ratings) {
       let result = 0;
       ratings.forEach(r => (result += r));
       return result / ratings.length;
     },
+    /*   Change le status de la variable showPoster pour savoir si on affiche le poster ou non   */
     changeStatusShowPoster(){
       this.showPoster = !this.showPoster;
       console.log(showPoster);
       return showPoster;
     },
+    /*   Change le status de la variable showSynopsys pour savoir si on affiche le synopsys ou non   */
     changeStatusShowSynopsys(){
       this.showSynopsys = !this.showSynopsys;
       console.log(showSynopsys);
       return showSynopsys;
     },
+    /*   Change le status de la variable dialogDelete pour savoir si on affiche la popUp avant la supression   */
     changeStatusDialogDelete(){
       this.dialogDelete = !this.dialogDelete;
       console.log(dialogDelete);
       return dialogDelete;
     },
+    /*   Permet de supprimer le film sélectionné   */
     remove() {
       ///   Ré-initialise dialogDelete   ///
       axios.delete(`/api/movies/${this.$route.params.id}`);
@@ -124,12 +134,14 @@ export default {
       ///   Permet de revenir à la page d'accueil   ///
       this.$router.push({ name: 'home'});
     },
+    /*   Permet de récupérer l'id du film passer dans l'url   */
     getUrlVars() {
       var vars = {};
       var parts = window.location.href;
       vars = parts.split('/');
       return vars;
     },
+    /*   Permet de noter le film sélectionné (ajoute une note dans le tableau de note)   */
     rateMovie(){
       this.obj.grade = this.theRate;
       axios.post(`/api/movies/${this.$route.params.id}`, this.obj);
@@ -140,6 +152,8 @@ export default {
     },
 
   },
+  /*   Permet de remplir la variable movies avec toutes les données de l'api de tous les films
+       Et de récupérer l'id du film passer dans l'url et mettre ces données dans la variable movie   */
   created: function() {
             console.log("Created");
             var $this = this;

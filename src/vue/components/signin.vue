@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-container v-if="user.length == 0">
+      <!--   Formulaire pour se connecter   -->
       <v-app>
         <v-content>
           <v-container fluid fill-height>
@@ -68,17 +69,20 @@ export default {
     };
   },
   methods: {
+    /*   Permet de se déconnecter (supprime totalement les données dans l'api pour user)   */
     disco(){
       axios.delete('/api/user');
       this.user = {};
       this.users = {};
       //window.location.reload();
     },
+    /*   Permet de set la variable drawer à false   */
     drawerSetFalse(){
       if(this.drawer){
         this.drawer = !this.drawer;
       }
     },
+    /*   Permet de vérifier si le user existe et si oui alors on se connect sinon message d'erreur  */
     searchUser(theUser){
       this.showErreur = false;
       let trouve= false;
@@ -97,6 +101,8 @@ export default {
       };
     },
   },
+  /*   Permet de remplir la variable users avec toutes les données de l'api de tous les users
+       Et de récupérer l'utilisateur dans l'api de user pour connaître la personne qui est déjà connecté ou non   */
   created: function() {
     console.log("Created");
     var $this = this;
